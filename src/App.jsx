@@ -1,6 +1,28 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
-import { auth, db } from './lib/firebase';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Home from './pages/Home';
+import HeroSlider from './components/HeroSlider';
+import BiometricAnimation from './components/BiometricAnimation';
+import EvocaDashboard from './components/EvocaDashboard';
+
+export default function App() {
+  return (
+    <Router>
+       <div className="flex flex-col min-h-screen bg-gray-50">
+        {/* Evocabank-ի մանուշակագույն ոճով վերնամաս */}
+        <Header />
+        <HeroSlider />
+        <BiometricAnimation />
+        <EvocaDashboard />
+        {/* Էջերի դինամիկ փոխարկման հատված */}
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* Այստեղ հետագայում կարող ենք ավելացնել այլ էջեր՝ /cards, /loans և այլն */}
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
+}

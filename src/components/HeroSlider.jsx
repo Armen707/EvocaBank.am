@@ -112,13 +112,13 @@ export default function HeroSlider() {
       });
   }, []);
 
-  if (loading) return <div className="w-full h-[550px] flex items-center justify-center bg-white">Բեռնվում է...</div>;
+  if (loading) return <div style={{ width: '100%', height: '650px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>Բեռնվում է...</div>;
   if (slides.length === 0) return null;
 
   return (
-    <div className="w-full bg-white pt-2 pb-10 overflow-hidden">
-      <div className="w-full">
-        <div className="relative w-full rounded-bl-[45px] overflow-hidden shadow-lg">
+    <div style={{ width: '100%', backgroundColor: '#fff', paddingTop: '8px', paddingBottom: '40px', overflow: 'hidden' }}>
+      <div style={{ width: '100%' }}>
+        <div style={{ position: 'relative', width: '100%', borderBottomLeftRadius: '200px', overflow: 'hidden', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}>
           <Swiper
             modules={[Autoplay, Pagination, Navigation, EffectFade]}
             effect={'fade'}
@@ -133,46 +133,77 @@ export default function HeroSlider() {
               nextEl: '.swiper-custom-next',
             }}
             loop={true}
-            className="w-full h-[550px]"
+            style={{ width: '100%', height: '650px' }}
           >
             {slides.map((slide) => {
               const lightBackgrounds = ["#dadada", "#E4DFFF", "#b6a44f", "#FFDCFB"];
               const isLightBg = lightBackgrounds.includes(slide.bgColor);
-              const textColor = isLightBg ? 'text-gray-900' : 'text-white';
-              const subTextColor = isLightBg ? 'text-gray-700' : 'text-gray-300';
+              const textColor = isLightBg ? '#111827' : '#ffffff';
+              const subTextColor = isLightBg ? '#374151' : '#d1d5db';
 
               return (
                 <SwiperSlide key={slide.id}>
                   <div 
-                    className={`w-full h-full flex items-center justify-between px-10 md:px-24 lg:px-32 relative transition-colors duration-500 ${textColor}`}
-                    style={{ backgroundColor: slide.bgColor || '#1f1829' }}
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'flex-end', 
+                      position: 'relative', 
+                      backgroundColor: slide.bgColor || '#1f1829',
+                      color: textColor,
+                      fontFamily: "'Poppins', 'Montserrat', sans-serif"
+                    }}
                   >
-                    {/* Ձախ մաս՝ տեքստ և կոճակ */}
-                    <div className="max-w-xl z-10 flex flex-col items-start gap-6">
-                      <h2 className="text-4xl md:text-[52px] font-black tracking-tighter leading-[1.1]">
+                    {/* Ձախ մաս՝ բացարձակ տեղադրված հենց ձախ եզրին */}
+                    <div 
+                      style={{ 
+                        position: 'absolute', 
+                        left: '60px', 
+                        maxWidth: '550px', 
+                        zIndex: 10, 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        alignItems: 'flex-start', 
+                        gap: '20px', 
+                        textAlign: 'left' 
+                      }}
+                    >
+                      <h2 style={{ fontSize: '48px', fontWeight: 900, letterSpacing: '-0.05em', lineHeight: '1.1', margin: 0 }}>
                         {slide.title}
                       </h2>
-                      <p className={`text-lg md:text-xl leading-relaxed ${subTextColor}`}>
+                      <p style={{ fontSize: '18px', lineHeight: '1.6', color: subTextColor, margin: 0 }}>
                         {slide.subtitle}
                       </p>
                       {slide.buttonText && (
                         <a
                           href={slide.buttonLink || '#'}
-                          className="inline-block bg-[#6600cc] hover:bg-[#5500aa] text-white px-8 py-4 rounded-full font-extrabold text-lg shadow-md transition duration-300"
+                          style={{
+                            display: 'inline-block',
+                            backgroundColor: '#6600cc',
+                            color: '#ffffff',
+                            padding: '14px 32px',
+                            borderRadius: '9999px',
+                            fontWeight: 800,
+                            fontSize: '16px',
+                            textDecoration: 'none',
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                            transition: 'background-color 0.3s'
+                          }}
                         >
                           {slide.buttonText}
                         </a>
                       )}
                     </div>
 
-                    {/* Աջ մաս՝ նկար, որտեղ հեռացված է ներքին ֆոնային շրջանակի տարբերությունը */}
+                    {/* Աջ մաս՝ նկար */}
                     {slide.imageUrl && (
-                      <div className="hidden md:flex items-center justify-center z-10 max-w-[50%] h-full">
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10, height: '100%', paddingRight: '60px' }}>
                         <img 
                           src={slide.imageUrl} 
                           alt={slide.title} 
-                          className="max-h-[500px] lg:max-h-[550px] object-contain"
-                          style={{ mixBlendMode: 'luminosity' }} // Միաձուլում է նկարի ֆոնը սլայդի գույնին
+                          style={{ maxHeight: '550px', objectFit: 'contain', mixBlendMode: 'luminosity' }}
                         />
                       </div>
                     )}
@@ -182,15 +213,15 @@ export default function HeroSlider() {
             })}
           </Swiper>
 
-          {/* Ներքևի վահանակ՝ սլաքներ և կետեր */}
-          <div className="absolute bottom-6 left-0 right-0 z-20 flex items-center justify-center gap-6 pointer-events-none">
-            <button className="swiper-custom-prev pointer-events-auto text-gray-500 hover:text-gray-900 transition cursor-pointer p-2">
+          {/* Ներքևի վահանակ՝ սլաքներ և կետեր (մեջտեղում) */}
+          <div style={{ position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 20, display: 'flex', alignItems: 'center', gap: '24px', pointerEvents: 'none' }}>
+            <button className="swiper-custom-prev" style={{ pointerEvents: 'auto', color: '#6b7280', background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}>
               <ArrowLeft size={24} strokeWidth={2.5} />
             </button>
 
-            <div className="swiper-custom-pagination flex items-center gap-2 pointer-events-auto"></div>
+            <div className="swiper-custom-pagination" style={{ display: 'flex', alignItems: 'center', gap: '8px', pointerEvents: 'auto' }}></div>
 
-            <button className="swiper-custom-next pointer-events-auto text-gray-500 hover:text-gray-900 transition cursor-pointer p-2">
+            <button className="swiper-custom-next" style={{ pointerEvents: 'auto', color: '#6b7280', background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}>
               <ArrowRight size={24} strokeWidth={2.5} />
             </button>
           </div>
