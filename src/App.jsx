@@ -4,7 +4,9 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import HeroSlider from './components/HeroSlider';
 import BiometricAnimation from './components/BiometricAnimation';
+import CardSwiper from './components/CardSwiper';
 import EvocaDashboard from './components/EvocaDashboard';
+import Calculator from './components/Calculator';
 
 export default function App() {
   return (
@@ -14,7 +16,9 @@ export default function App() {
         <Header />
         <HeroSlider />
         <BiometricAnimation />
-        <EvocaDashboard />
+        <EvocaDashboard/>
+        <CardSwiper />
+        <Calculator/>
         {/* Էջերի դինամիկ փոխարկման հատված */}
         <main className="flex-grow">
           <Routes>

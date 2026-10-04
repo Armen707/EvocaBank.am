@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-
 import { database } from '../lib/firebase'; 
 import { ref, get, set } from 'firebase/database';
 
