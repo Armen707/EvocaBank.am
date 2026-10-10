@@ -103,14 +103,14 @@ export default function Calculator() {
                 <input
                   type="range"
                   min="1"
-                  max="50"
+                  max="36"
                   value={loanRate}
                   onChange={(e) => setLoanRate(Number(e.target.value))}
                   className="w-full accent-purple-700 cursor-pointer mb-1"
                 />
                 <div className="flex justify-between text-[11px] text-gray-400">
                   <span>1 %</span>
-                  <span>50 %</span>
+                  <span>36 %</span>
                 </div>
               </div>
 
@@ -146,7 +146,7 @@ export default function Calculator() {
             {/* Ստորին հատված և Հաշվել կոճակ */}
             <div className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-gray-100 gap-4">
               <p className="text-[11px] text-gray-400 max-w-lg leading-relaxed">
-                Բոլոր հաշվարկները կրում են մոտավոր բույն և ᵸեն հանդիսանում հրապարակային առաջարկ:
+                Բոլոր հաշվարկները կրում են մոտավոր բույն և չեն հանդիսանում հրապարակային առաջարկ:
               </p>
               <button
                 onClick={() => setIsModalOpen(true)}

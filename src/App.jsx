@@ -7,7 +7,10 @@ import BiometricAnimation from './components/BiometricAnimation';
 import CardSwiper from './components/CardSwiper';
 import EvocaDashboard from './components/EvocaDashboard';
 import Calculator from './components/Calculator';
-
+import EvocaHero from './components/EvocaHero';
+import EvocaPartners from './components/EvocaPartners';
+import LatestNews from './components/LatestNews';
+import CurrencyExchangeSection from './components/CurrencyExchangeSection';
 export default function App() {
   return (
     <Router>
@@ -19,6 +22,10 @@ export default function App() {
         <EvocaDashboard/>
         <CardSwiper />
         <Calculator/>
+        <EvocaHero/>
+        <EvocaPartners />
+        <LatestNews />
+        <CurrencyExchangeSection />
         {/* Էջերի դինամիկ փոխարկման հատված */}
         <main className="flex-grow">
           <Routes>
