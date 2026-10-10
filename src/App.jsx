@@ -11,6 +11,8 @@ import EvocaHero from './components/EvocaHero';
 import EvocaPartners from './components/EvocaPartners';
 import LatestNews from './components/LatestNews';
 import CurrencyExchangeSection from './components/CurrencyExchangeSection';
+import TestimonialsSlider from './components/TestimonialsSlider';
+
 export default function App() {
   return (
     <Router>
@@ -26,6 +28,7 @@ export default function App() {
         <EvocaPartners />
         <LatestNews />
         <CurrencyExchangeSection />
+        <TestimonialsSlider />
         {/* Էջերի դինամիկ փոխարկման հատված */}
         <main className="flex-grow">
           <Routes>
