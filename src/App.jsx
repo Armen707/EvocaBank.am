@@ -15,6 +15,7 @@ import TestimonialsSlider from './components/TestimonialsSlider';
 import Loans from './components/Loans'; // <-- Ներմուծեցինք Վարկերի բաղադրիչը
 import Footer from './components/Footer';
 import CreditHistory from './components/CreditHistory';
+import ImportantInfo from './components/ImportantInfo';
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
             {/* Վարկերի էջը */}
             <Route path="/loans" element={<Loans />} />
             <Route path="/credit-history" element={<CreditHistory />} />
+            <Route path="/important-info" element={<ImportantInfo />} />
           </Routes>
         </main>
 
