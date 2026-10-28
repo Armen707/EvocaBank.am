@@ -1,21 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Search, MapPin, HelpCircle, Globe, Menu } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Search, MapPin, HelpCircle, Globe, Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next'; // <-- Ներմուծում ենք i18next-ը
 
 export default function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { i18n } = useTranslation(); // <-- Ստանում ենք i18n ֆունկցիաները
 
   // State՝ գլոբուսի մենյուի բաց/փակ լինելը կառավարելու համար
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langMenuRef = useRef(null);
 
-  // Փակել մենյուն, եթե սեղմենք դրսում
+  // State-եր որոնման (search) վահանակի համար
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchRef = useRef(null);
+
+  // Փակել մենյուները, եթե սեղմենք դրսում
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (langMenuRef.current && !langMenuRef.current.contains(event.target)) {
         setIsLangOpen(false);
+      }
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        // Եթե սեղմում ենք որոնման բլոկից դուրս, կարող ենք փակել կամ թողնել բաց (ըստ ցանկության)
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -26,6 +35,17 @@ export default function Header() {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setIsLangOpen(false); // Ընտրելուց հետո փակում ենք մենյուն
+  };
+
+  // Որոնումն իրականացնելու ֆունկցիա
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Այստեղ կարող եք ուղղորդել որոնման արդյունքների էջ, օրինակ՝ navigate(`/search?q=${encodeURIComponent(searchQuery)}`)
+      console.log('Searching for:', searchQuery);
+      setIsSearchOpen(false);
+      setSearchQuery('');
+    }
   };
 
   // Функция для проверки активного пути
@@ -44,7 +64,7 @@ export default function Header() {
   return (
     <header className="w-full bg-white shadow-sm sticky top-0 z-50 font-sans">
       {/* 1. Верхний слой (с динамическим фиолетовым подчеркиванием) */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex justify-between items-center text-[13px] py-2 border-b text-gray-700">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex justify-between items-center text-[13px] py-2 border-b text-gray-700 relative">
         {/* Левая сторона: Ссылки разделов */}
         <div className="flex items-center gap-6 font-medium">
           <Link to="/" className={getTopNavLinkClass('/')}>
@@ -128,7 +148,43 @@ export default function Header() {
             </div>
             {/* ------------------------------------------- */}
 
-            <Search size={17} className="cursor-pointer hover:text-purple-700 transition" />
+            {/* --- ՈՐՈՆՄԱՆ (SEARCH) ԿՈՃԱԿ ԵՎ ԻՆՊՈՒՏ --- */}
+            <div className="relative" ref={searchRef}>
+              <button 
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="focus:outline-none flex items-center"
+                title="Որոնել"
+              >
+                <Search size={17} className="cursor-pointer hover:text-purple-700 transition" />
+              </button>
+
+              {/* Բացվող որոնման դաշտ */}
+              {isSearchOpen && (
+                <form 
+                  onSubmit={handleSearchSubmit}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center bg-white border border-purple-300 rounded-full shadow-md px-3 py-1 z-50 w-64 md:w-80"
+                >
+                  <Search size={15} className="text-gray-400 mr-2 flex-shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Որոնել..."
+                    autoFocus
+                    className="w-full text-xs bg-transparent focus:outline-none text-gray-800"
+                  />
+                  <button 
+                    type="button" 
+                    onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }}
+                    className="ml-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                  >
+                    <X size={15} />
+                  </button>
+                </form>
+              )}
+            </div>
+            {/* ------------------------------------------- */}
+
             <Menu size={20} className="cursor-pointer hover:text-purple-700 transition md:hidden" />
           </div>
         </div>
