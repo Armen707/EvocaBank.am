@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const cardsData = [
   {
@@ -226,7 +227,6 @@ const cardsData = [
     price: "15,000 ֏",
     image: "https://www.evoca.am/images-cache/cards/1/17149865646885/415x261.png"
   },
-  // Վերջին 2 քարտերը (կհայտնվեն միայն 2-րդ էջում)
   {
     id: 21,
     category: 'gift',
@@ -245,17 +245,18 @@ const cardsData = [
   }
 ];
 
-export default function EvocaCardsSection() {
+export default function EvocaCards() {
+  const location = useLocation();
   const [activeFilter, setActiveFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
-  // Ֆիլտրում ըստ կատեգորիայի
+  const isActive = (path) => location.pathname === path;
+
   const filteredCards = activeFilter === 'all' 
     ? cardsData 
     : cardsData.filter(card => card.category === activeFilter);
 
-  // Բաժանում էջերի (Pagination)
   const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentCards = filteredCards.slice(startIndex, startIndex + itemsPerPage);
@@ -263,26 +264,45 @@ export default function EvocaCardsSection() {
   return (
     <div className="bg-white min-h-screen text-gray-800" style={{ fontFamily: "'Montserratarm-Medium', 'Helvetica', 'Arial', sans-serif" }}>
       
-      {/* Top Header Nav */}
+      {/* Ենթամենյու (Links ռոուտինգի համար) */}
       <div className="text-white py-3 px-6" style={{ backgroundColor: '#6400dc' }}>
         <div className="max-w-7xl mx-auto flex space-x-8 text-sm font-medium overflow-x-auto">
-          <span className="border-b-2 border-white pb-1 cursor-pointer">Քարտեր</span>
-          <span className="opacity-80 hover:opacity-100 cursor-pointer">Քարտերի տրամադրում և սպասարկում</span>
-          <span className="opacity-80 hover:opacity-100 cursor-pointer">Սոցիալական ապահովության վճարային քարտեր</span>
-          <span className="opacity-80 hover:opacity-100 cursor-pointer">Evoca Benefits</span>
+          <Link 
+            to="/cards" 
+            className={`pb-1 transition ${isActive('/cards') ? 'border-b-2 border-white font-bold' : 'opacity-80 hover:opacity-100'}`}
+          >
+            Քարտեր
+          </Link>
+          <Link 
+            to="/issuance" 
+            className={`pb-1 transition ${isActive('/issuance') ? 'border-b-2 border-white font-bold' : 'opacity-80 hover:opacity-100'}`}
+          >
+            Քարտերի տրամադրում և սպասարկում
+          </Link>
+          <Link 
+            to="/social-cards" 
+            className={`pb-1 transition ${isActive('/social-cards') ? 'border-b-2 border-white font-bold' : 'opacity-80 hover:opacity-100'}`}
+          >
+            Սոցիալական ապահովության վճարային քարտեր
+          </Link>
+          <Link 
+            to="/benefits" 
+            className={`pb-1 transition ${isActive('/benefits') ? 'border-b-2 border-white font-bold' : 'opacity-80 hover:opacity-100'}`}
+          >
+            Evoca Benefits
+          </Link>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         
-        {/* Breadcrumb & Title */}
         <div className="text-sm text-gray-400 mb-2">
           Անհատ <span className="mx-1">&gt;</span> Քարտեր <span className="mx-1">&gt;</span> <span className="text-gray-600 font-semibold">Քարտեր</span>
         </div>
         
         <h1 className="text-4xl font-black text-gray-900 mb-6">Քարտեր</h1>
 
-        {/* Filter Buttons & System Icons Bar */}
+        {/* Ֆիլտրեր */}
         <div className="flex flex-wrap items-center gap-3 mb-10 pb-4 border-b border-gray-100">
           <button 
             onClick={() => { setActiveFilter('all'); setCurrentPage(1); }}
@@ -306,7 +326,6 @@ export default function EvocaCardsSection() {
             Նվեր քարտեր
           </button>
 
-          {/* Payment System Image Icons Filter */}
           <div className="flex items-center space-x-2 ml-2">
             <button 
               onClick={() => { setActiveFilter('arca'); setCurrentPage(1); }}
@@ -339,14 +358,13 @@ export default function EvocaCardsSection() {
           </div>
         </div>
 
-        {/* Vertical Cards Stack */}
+        {/* Քարտերի ցուցակ */}
         <div className="space-y-6 mb-12">
           {currentCards.map((card) => (
             <div 
               key={card.id} 
               className="bg-white border border-gray-100 rounded-3xl p-8 sm:p-10 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row items-center justify-between gap-8"
             >
-              {/* Left: Card Image */}
               <div className="w-full md:w-[420px] flex-shrink-0 flex items-center justify-center p-2 bg-transparent">
                 <img 
                   src={card.image} 
@@ -355,7 +373,6 @@ export default function EvocaCardsSection() {
                 />
               </div>
 
-              {/* Middle: Title, Description & Features */}
               <div className="flex-1">
                 <h3 className="text-3xl font-bold text-gray-900 mb-3">{card.title}</h3>
                 <p className="text-base text-gray-600 mb-6 leading-relaxed">{card.desc}</p>
@@ -372,7 +389,6 @@ export default function EvocaCardsSection() {
                 )}
               </div>
 
-              {/* Right: Price & Details Button */}
               <div className="w-full md:w-auto flex flex-col items-end justify-between self-stretch border-t md:border-t-0 md:border-l border-gray-100 pt-6 md:pt-0 md:pl-10">
                 {card.price ? (
                   <div className="text-right mb-8">
@@ -393,10 +409,9 @@ export default function EvocaCardsSection() {
           ))}
         </div>
 
-        {/* Pagination (Էջավորում) */}
+        {/* Էջավորում */}
         {totalPages > 1 && (
           <div className="flex items-center justify-center space-x-6 py-6 border-t border-gray-100">
-            {/* Ձախ սլաք */}
             <button 
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
@@ -405,7 +420,6 @@ export default function EvocaCardsSection() {
               &larr;
             </button>
 
-            {/* Էջերի համարներ */}
             <div className="flex items-center space-x-3">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
@@ -423,7 +437,6 @@ export default function EvocaCardsSection() {
               ))}
             </div>
 
-            {/* Աջ սլաք */}
             <button 
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
